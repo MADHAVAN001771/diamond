@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sold History</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+}
+.container {
+  max-width: 1200px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+h2 {
+  color: #c18700;
+}
+a {
+  display: inline-block;
+  margin-bottom: 15px;
+  text-decoration: none;
+  background: #457b9d;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+.table {
+  margin-top: 15px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  gap: 10px;
+  padding: 8px;
+  background: #fff6d5;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  text-align: center;
+}
+.header-row {
+  background: #ffd700;
+  font-weight: bold;
+}
+.totals-row {
+  background: #ffcc00;
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>Date-wise Sold History (Cent-wise)</h2>
+<a href="index.html">⬅ Back to Inventory</a>
+
+<label>Select Date: </label>
+<input type="date" id="datePicker">
+
+<div class="table">
+  <div class="row header-row">
+    <div>Cent</div>
+    <div>Sold Products</div>
+    <div>Sold Weight</div>
+  </div>
+
+  <div id="historyRows"></div>
+
+  <div class="row totals-row">
+    <div>Total</div>
+    <div id="totalSoldNo">0</div>
+    <div id="totalSoldWt">0</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const historyRows = document.getElementById("historyRows");
+const datePicker = document.getElementById("datePicker");
+const totalSoldNoEl = document.getElementById("totalSoldNo");
+const totalSoldWtEl = document.getElementById("totalSoldWt");
+
+const soldHistory = JSON.parse(localStorage.getItem("sold-history")) || {};
+const CENTS = Array.from({ length: 20 }, (_, i) => i + 1);
+
+// Default date = today
+const today = new Date().toISOString().split("T")[0];
+datePicker.value = today;
+
+// Load when date changes
+datePicker.addEventListener("change", renderHistory);
+
+renderHistory();
+
+function renderHistory() {
+  const date = datePicker.value;
+  historyRows.innerHTML = "";
+
+  let totalNo = 0;
+  let totalWt = 0;
+
+  CENTS.forEach(cent => {
+    const sold = soldHistory[date]?.[cent] || { products: 0, weight: 0 };
+
+    totalNo += sold.products;
+    totalWt += sold.weight;
+
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = `
+      <div>${cent} Cent</div>
+      <div>${sold.products}</div>
+      <div>${sold.weight}</div>
+    `;
+    historyRows.appendChild(row);
+  });
+
+  totalSoldNoEl.textContent = totalNo;
+  totalSoldWtEl.textContent = totalWt;
+}
+</script>
+
+</body>
+</html>
