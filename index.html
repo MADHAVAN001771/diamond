@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Diamond Nosepin Inventory</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Diamond Nosepin Inventory</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
-  <h2>Diamond Nosepin Inventory</h2>
+  <h1>💎 Diamond Nosepin Inventory</h1>
 
-  <a href="sold.html">View Sold History</a>
+  <button onclick="saveAndViewHistory()">
+    Save & View Sold History
+  </button>
 
-  <div class="table">
-    <!-- Header -->
-    <div class="row header-row">
-      <div>Cent</div>
-      <div>Opening Stock</div>
-      <div>Sold Today</div>
-      <div>Remaining</div>
-    </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Cent / Item</th>
+        <th>No. of Products</th>
+        <th>Total Number of Weight</th>
+        <th>Sold Products (Today)</th>
+        <th>Sold Weight (Today)</th>
+        <th>Remaining</th>
+      </tr>
+    </thead>
 
-    <div id="rows"></div>
+    <tbody id="inventoryBody"></tbody>
 
-    <!-- Totals Row -->
-    <div id="totals-row" class="row totals-row">
-      <div>Total</div>
-      <div class="small-box"><span id="total-open-no">0</span>, <span id="total-open-wt">0</span></div>
-      <div class="small-box"><span id="total-sold-no">0</span>, <span id="total-sold-wt">0</span></div>
-      <div class="small-box"><span id="total-remain-no">0</span>, <span id="total-remain-wt">0</span></div>
-    </div>
-  </div>
+    <tfoot>
+      <tr class="total">
+        <td>Total</td>
+        <td id="tOP">0</td>
+        <td id="tOW">0.000</td>
+        <td id="tSP">0</td>
+        <td id="tSW">0.000</td>
+        <td id="tR">0 , 0.000</td>
+      </tr>
+    </tfoot>
+  </table>
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
